@@ -18,10 +18,7 @@ import { onHandleAppearanceChange } from '@common/utilities';
 // Navigation sections with tooltip hints
 const NAV_SECTIONS = [
   { id: 'home', label: 'home', path: '~/portfolio', icon: '>', hint: 'back to root directory' },
-  { id: 'about', label: 'about', path: '~/portfolio/about', icon: '>', hint: 'bio & introduction' },
-  { id: 'experience', label: 'experience', path: '~/portfolio/experience', icon: '>', hint: 'work & research' },
-  { id: 'projects', label: 'projects', path: '~/portfolio/projects', icon: '>', hint: 'coding projects' },
-  { id: 'education', label: 'education', path: '~/portfolio/education', icon: '>', hint: 'academic background' },
+  { id: 'about', label: 'about', path: '~/portfolio/about', icon: '>', hint: 'bio, experience & projects' },
   { id: 'music', label: 'music', path: '~/portfolio/music', icon: '>', hint: 'beats & productions' },
   { id: 'skills', label: 'skills', path: '~/portfolio/skills', icon: '>', hint: 'tech stack' },
   { id: 'contact', label: 'contact', path: '~/portfolio/contact', icon: '>', hint: 'get in touch' },
@@ -521,9 +518,20 @@ const Terminal: React.FC = () => {
             e.stopPropagation();
             setIsMobileMenuOpen(!isMobileMenuOpen);
           }}
+          aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isMobileMenuOpen}
         >
-          {isMobileMenuOpen ? 'x' : '='}
+          {isMobileMenuOpen ? '×' : '≡'}
         </button>
+
+        {/* Mobile Menu Backdrop */}
+        {isMobileMenuOpen && (
+          <div 
+            className={styles.mobileBackdrop}
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+        )}
 
         {/* Main Content */}
         <div className={styles.mainContent}>
@@ -630,6 +638,8 @@ const Terminal: React.FC = () => {
                   autoCorrect="off"
                   autoCapitalize="off"
                   spellCheck={false}
+                  enterKeyHint="send"
+                  inputMode="text"
                 />
                 <span className={styles.cursor} />
               </div>

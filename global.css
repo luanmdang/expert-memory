@@ -444,6 +444,10 @@ body.theme-dark.tint-pink {
 
 html,
 body {
+  /* Responsive font size base */
+  --font-size-base: 16px;
+  --font-size-mobile: 14px;
+  
   --color-black-100: rgba(0, 0, 0, 1);
   --color-black-100-1: rgba(0, 0, 0, 0.1);
   --color-black-100-2: rgba(0, 0, 0, 0.2);
@@ -618,5 +622,76 @@ body {
 
   &::-webkit-scrollbar-thumb:hover {
     background: var(--theme-border);
+  }
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS & MOBILE SUPPORT
+   ============================================ */
+
+/* Tablet & smaller desktops */
+@media (max-width: 1024px) {
+  html, body {
+    --font-size: 15px;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 768px) {
+  html, body {
+    --font-size: var(--font-size-mobile);
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Better touch scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  html, body {
+    --font-size: 13px;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger touch targets */
+  button, 
+  [role="button"],
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Remove hover states that don't make sense on touch */
+  a:hover {
+    background: var(--theme-border-subdued);
+  }
+}
+
+/* Landscape phone optimization */
+@media (max-height: 500px) and (orientation: landscape) {
+  html, body {
+    --theme-line-height-base: 1.15;
+  }
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  html, body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Print styles */
+@media print {
+  html, body {
+    background: white;
+    color: black;
   }
 }

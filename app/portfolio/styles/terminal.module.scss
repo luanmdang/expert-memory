@@ -400,6 +400,19 @@
   display: flex;
   flex-direction: column;
 
+  &.pdfModal {
+    height: 80vh;
+    
+    @media (max-width: 768px) {
+      width: 100%;
+      max-width: 100%;
+      height: 100%;
+      max-height: 100%;
+      margin: 0;
+      border: none;
+    }
+  }
+
   .modalHeader {
     display: flex;
     align-items: center;
@@ -876,8 +889,50 @@
   }
 }
 
-// Mobile Responsive
+// Mobile menu backdrop
+.mobileBackdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 45;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+}
+
+// ============================================
+// RESPONSIVE STYLES
+// ============================================
+
+// Tablet breakpoint (1024px and below)
+@media (max-width: 1024px) {
+  .sidePanel {
+    width: 20ch;
+    min-width: 20ch;
+  }
+
+  .statusBar {
+    .statusRight {
+      gap: 1ch;
+    }
+  }
+
+  .navTooltip {
+    display: none;
+  }
+}
+
+// Mobile breakpoint (768px and below)
 @media (max-width: 768px) {
+  .container {
+    font-size: var(--font-size);
+  }
+
   .sidePanel {
     position: fixed;
     left: -100%;
@@ -886,25 +941,424 @@
     z-index: 50;
     transition: left 0.2s ease;
     border-right: 2px solid var(--theme-text);
+    width: 22ch;
+    min-width: 22ch;
 
     &.open {
       left: 0;
+    }
+
+    .panelHeader {
+      padding-top: calc(var(--theme-line-height-base) * 1rem);
     }
   }
 
   .hamburgerButton {
     display: flex;
+    min-width: 44px;
+    min-height: 44px;
+    width: auto;
+    padding: 0 1ch;
   }
 
   .statusBar {
-    padding-left: 4ch;
+    padding-left: 5ch;
+    flex-wrap: nowrap;
+
+    .statusLeft {
+      display: none;
+    }
 
     .statusCenter {
       font-size: calc(var(--font-size) * 0.875);
+      flex-shrink: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    .statusRight .statusIndicator {
+    .statusRight {
+      gap: 0.5ch;
+      flex-shrink: 0;
+      
+      .statusIndicator {
+        display: none;
+      }
+    }
+
+    .audioToggle,
+    .noPopupToggle,
+    .themeToggle {
+      padding: 0 0.5ch;
+      min-height: 32px;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  // Terminal area touch improvements
+  .terminalArea {
+    touch-action: pan-y;
+  }
+
+  .terminalHistory {
+    padding: calc(var(--theme-line-height-base) * 0.5rem) 0.5ch;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .commandBlock {
+    .output {
+      padding-left: 0.5ch;
+      font-size: calc(var(--font-size) * 0.95);
+    }
+  }
+
+  // Scroll hint mobile
+  .scrollHint {
+    font-size: calc(var(--font-size) * 0.75);
+    padding: calc(var(--theme-line-height-base) * 0.125rem) 0;
+  }
+
+  // Command input mobile
+  .commandInputBar {
+    padding: 0 0.5ch;
+    min-height: calc(var(--theme-line-height-base) * 2rem);
+    gap: 0.5ch;
+    flex-wrap: nowrap;
+
+    .promptSymbol {
+      font-size: calc(var(--font-size) * 0.875);
+      max-width: 15ch;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .commandInput {
+      font-size: var(--font-size);
+      min-height: 44px;
+      
+      &::placeholder {
+        font-size: calc(var(--font-size) * 0.875);
+      }
+    }
+
+    .executeButton {
+      min-height: 44px;
+      min-width: 44px;
+      padding: 0 1ch;
+    }
+
+    .cursor {
+      display: none; // Hide cursor on mobile - native cursor is shown
+    }
+  }
+
+  // Suggestions mobile
+  .suggestions {
+    max-width: 90vw;
+    left: 0;
+    right: 0;
+
+    .suggestion {
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  // Modal responsive
+  .modal {
+    width: 95%;
+    max-width: none;
+    max-height: 90vh;
+    margin: 5vh 2.5%;
+
+    .modalHeader {
+      .modalTitle {
+        font-size: calc(var(--font-size) * 0.875);
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .closeButton {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0 1ch;
+      }
+    }
+
+    .modalContent {
+      padding: calc(var(--theme-line-height-base) * 0.5rem) 0.75ch;
+      
+      h1 { font-size: calc(var(--font-size) * 1.15); }
+      h2 { font-size: calc(var(--font-size) * 0.95); }
+      
+      pre {
+        overflow-x: auto;
+        max-width: 100%;
+        font-size: calc(var(--font-size) * 0.85);
+      }
+    }
+  }
+
+  // ASCII Player mobile
+  .asciiPlayer {
+    min-width: auto;
+    max-width: 90vw;
+    width: 90vw;
+    padding: calc(var(--theme-line-height-base) * 0.75rem) 1ch;
+
+    .playerTrack {
+      font-size: var(--font-size);
+      word-break: break-word;
+    }
+
+    .playerProgress {
+      width: 100%;
+      max-width: 34ch;
+      font-size: calc(var(--font-size) * 0.9);
+    }
+
+    .playerControls {
+      gap: 3ch;
+      
+      .playerControl {
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    .playerVolume {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .playerHelp {
+      font-size: calc(var(--font-size) * 0.75);
+    }
+  }
+
+  // Inline audio player mobile
+  .inlineAsciiPlayer {
+    max-width: 100%;
+  }
+
+  .inlinePlayerProgress {
+    width: 100%;
+    max-width: 34ch;
+  }
+
+  .inlinePlayerRow {
+    flex-wrap: wrap;
+    gap: 1ch;
+  }
+
+  .inlinePlayerControls {
+    .inlinePlayerControl {
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  // Navigation buttons touch-friendly
+  .navButton {
+    min-height: 44px;
+    line-height: 44px;
+    padding: 0 1.5ch;
+  }
+
+  // Loading screen mobile
+  .loadingScreen {
+    .progressBarContainer {
+      width: 80vw;
+      max-width: 32ch;
+    }
+  }
+
+  // Matrix overlay mobile
+  .matrixOverlay {
+    .matrixMessage {
+      font-size: calc(var(--font-size) * 1.25);
+      padding: 0 2ch;
+      text-align: center;
+    }
+  }
+
+  // ls output mobile - wrap items
+  .lsOutput {
+    display: block;
+  }
+
+  .lsItem {
+    display: inline-block;
+    margin-right: 2ch;
+    margin-bottom: calc(var(--theme-line-height-base) * 0.25rem);
+  }
+
+  .lsSpacer {
+    display: none;
+  }
+
+  // ASCII logo mobile - smaller
+  .asciiLogo {
+    font-size: calc(var(--font-size) * 0.6);
+    line-height: 1.0;
+  }
+}
+
+// Small mobile breakpoint (480px and below)
+@media (max-width: 480px) {
+  .statusBar {
+    .statusCenter {
+      font-size: calc(var(--font-size) * 0.8);
+    }
+    
+    .audioToggle,
+    .themeToggle {
+      font-size: calc(var(--font-size) * 0.875);
+    }
+
+    // Hide popup toggle on very small screens
+    .noPopupToggle {
       display: none;
     }
+  }
+
+  .commandInputBar {
+    .promptSymbol {
+      max-width: 10ch;
+      font-size: calc(var(--font-size) * 0.8);
+    }
+  }
+
+  .modal {
+    width: 100%;
+    max-height: 100vh;
+    height: 100vh;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+  }
+
+  .asciiPlayer {
+    width: 100%;
+    max-width: 100%;
+    border: none;
+    
+    .playerProgress {
+      font-size: calc(var(--font-size) * 0.8);
+    }
+  }
+
+  .asciiLogo {
+    font-size: calc(var(--font-size) * 0.5);
+  }
+
+  .welcomeMessage {
+    font-size: calc(var(--font-size) * 0.9);
+  }
+}
+
+// Landscape phone optimization
+@media (max-height: 500px) and (orientation: landscape) {
+  .statusBar {
+    height: calc(var(--theme-line-height-base) * 1.25rem);
+    min-height: calc(var(--theme-line-height-base) * 1.25rem);
+  }
+
+  .sidePanel {
+    width: 18ch;
+    min-width: 18ch;
+
+    .panelHeader,
+    .panelFooter {
+      padding: calc(var(--theme-line-height-base) * 0.25rem) 1ch;
+    }
+  }
+
+  .navButton {
+    min-height: 36px;
+    line-height: 36px;
+  }
+
+  .commandInputBar {
+    min-height: calc(var(--theme-line-height-base) * 1.5rem);
+
+    .commandInput,
+    .executeButton {
+      min-height: 36px;
+    }
+  }
+
+  .modal {
+    max-height: 95vh;
+  }
+
+  .asciiPlayer {
+    padding: calc(var(--theme-line-height-base) * 0.5rem) 1ch;
+  }
+
+  .loadingScreen {
+    .loadingText {
+      font-size: calc(var(--font-size) * 0.9);
+    }
+  }
+}
+
+// Touch device specific improvements
+@media (hover: none) and (pointer: coarse) {
+  // Enlarge interactive elements for touch
+  .lsName {
+    padding: 0.25ch 0.5ch;
+    margin: -0.25ch -0.5ch;
+  }
+
+  .suggestion {
+    padding: 0.5ch 1ch !important;
+  }
+
+  .playerControl,
+  .inlinePlayerControl {
+    padding: 0.5ch 1ch;
+  }
+
+  // Remove hover effects that feel wrong on touch
+  .navButton:hover,
+  .executeButton:hover,
+  .audioToggle:hover,
+  .themeToggle:hover,
+  .noPopupToggle:hover {
+    background: transparent;
+  }
+
+  .navButton:active,
+  .executeButton:active,
+  .audioToggle:active,
+  .themeToggle:active,
+  .noPopupToggle:active {
+    background: var(--theme-focused-foreground);
+  }
+}
+
+// Safe area insets for notched devices
+@supports (padding: max(0px)) {
+  .container {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  .statusBar {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .commandInputBar {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }

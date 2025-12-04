@@ -40,7 +40,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ file, onClose }) => {
 
   return (
     <div className={styles.modalOverlay} onClick={handleOverlayClick}>
-      <div className={styles.modal} style={{ maxWidth: '72ch', height: '80vh' }}>
+      <div className={`${styles.modal} ${styles.pdfModal}`}>
         <header className={styles.modalHeader}>
           <div className={styles.modalTitle}>
             <span>{file.name}</span>
@@ -51,10 +51,10 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ file, onClose }) => {
               onClick={handleDownload}
               style={{ borderRight: 'none' }}
             >
-              [download]
+              [↓]
             </button>
             <button className={styles.closeButton} onClick={onClose}>
-              [esc]
+              [×]
             </button>
           </div>
         </header>

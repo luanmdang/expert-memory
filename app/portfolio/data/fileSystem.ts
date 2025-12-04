@@ -66,221 +66,57 @@ export const fileSystem: FileNode = {
               metadata: { extension: 'txt' },
               content: `# About Me
 
-Hi! I'm Luan, a Computer Science student passionate about building innovative software and creating music.
+Hi! I'm Luan, a CS student passionate about building innovative software and music production.
 
 ## Background
-I combine my love for technology with creative expression, building applications that push boundaries while also producing music that moves people.
+CS @ Stanford University (BS '27)
+Prev: Zoom Inc., Neurotrack, Chaudhuri Lab, Stanford IAIS, Thrive Scholars, Strategic Risk Solutions, and more.
 
 ## What I Do
 - [>] Full-stack development
-- [~] Music production
-- [*] Building impactful projects
-- [+] Continuous learning
+- [>] AI-powered software
+- [>] Machine Learning
+- [*] Building impactful and creative projects
+- [+] Learning the latest technologies
 
-## Philosophy
-I believe in creating things that matter - whether it's code that solves real problems or music that resonates with people. Every project is an opportunity to learn and grow.`,
-            },
-          ],
-        },
-        {
-          name: 'experience',
-          type: 'directory',
-          path: '~/portfolio/experience',
-          children: [
-            {
-              name: 'internships.txt',
-              type: 'file',
-              path: '~/portfolio/experience/internships.txt',
-              metadata: { extension: 'txt' },
-              content: `# Work Experience
-
-## Software Engineering Intern
-**Company Name** | Summer 2024
-- Built and deployed production features
-- Collaborated with cross-functional teams
-- Improved system performance by X%
-
-## Previous Experience
-- Research Assistant
-- Teaching Assistant
-- Open Source Contributor`,
-            },
-            {
-              name: 'research.txt',
-              type: 'file',
-              path: '~/portfolio/experience/research.txt',
-              metadata: { extension: 'txt' },
-              content: `# Research Experience
-
-## Research Project Title
-**Lab/Institution** | 2023-2024
-- Conducted research on [topic]
-- Published findings in [venue]
-- Collaborated with leading researchers`,
-            },
-            {
-              name: 'leadership.txt',
-              type: 'file',
-              path: '~/portfolio/experience/leadership.txt',
-              metadata: { extension: 'txt' },
-              content: `# Leadership & Activities
-
-## Club/Organization
-**Position** | 2022-Present
-- Led team of X members
-- Organized events with Y attendees
-- Achieved Z outcomes`,
-            },
-          ],
-        },
-        {
-          name: 'projects',
-          type: 'directory',
-          path: '~/portfolio/projects',
-          children: [
-            {
-              name: 'project1',
-              type: 'directory',
-              path: '~/portfolio/projects/project1',
-              metadata: {
-                tags: ['React', 'TypeScript', 'Node.js'],
-                githubUrl: 'https://github.com/username/project1',
-                demoUrl: 'https://project1.demo.com',
-                images: [],
-              },
-              children: [
-                {
-                  name: 'README.md',
-                  type: 'file',
-                  path: '~/portfolio/projects/project1/README.md',
-                  metadata: { extension: 'md' },
-                  content: `# Project One
-
-## Description
-A full-stack web application that does amazing things.
-
-## Features
-- Feature 1: Description
-- Feature 2: Description
-- Feature 3: Description
-
-## Tech Stack
-- Frontend: React, TypeScript
-- Backend: Node.js, Express
-- Database: PostgreSQL
-
-## Impact
-- 1000+ users
-- 99.9% uptime
-- Featured in [publication]`,
-                },
-              ],
-            },
-            {
-              name: 'project2',
-              type: 'directory',
-              path: '~/portfolio/projects/project2',
-              metadata: {
-                tags: ['Python', 'Machine Learning', 'TensorFlow'],
-                githubUrl: 'https://github.com/username/project2',
-              },
-              children: [
-                {
-                  name: 'README.md',
-                  type: 'file',
-                  path: '~/portfolio/projects/project2/README.md',
-                  metadata: { extension: 'md' },
-                  content: `# Project Two
-
-## Description
-An ML-powered application for solving complex problems.
-
-## Features
-- AI-driven predictions
-- Real-time processing
-- Intuitive interface
-
-## Tech Stack
-- Python, TensorFlow
-- FastAPI
-- Docker`,
-                },
-              ],
-            },
-            {
-              name: 'project3',
-              type: 'directory',
-              path: '~/portfolio/projects/project3',
-              metadata: {
-                tags: ['Rust', 'Systems', 'Performance'],
-                githubUrl: 'https://github.com/username/project3',
-              },
-              children: [
-                {
-                  name: 'README.md',
-                  type: 'file',
-                  path: '~/portfolio/projects/project3/README.md',
-                  metadata: { extension: 'md' },
-                  content: `# Project Three
-
-## Description
-A high-performance systems project.
-
-## Features
-- Blazing fast execution
-- Memory safe
-- Zero dependencies
-
-## Tech Stack
-- Rust
-- WebAssembly`,
-                },
-              ],
-            },
-          ],
-        },
-        {
-          name: 'education',
-          type: 'directory',
-          path: '~/portfolio/education',
-          children: [
-            {
-              name: 'university.txt',
-              type: 'file',
-              path: '~/portfolio/education/university.txt',
-              metadata: { extension: 'txt' },
-              content: `# Education
-
-## Stanford University
-**B.S. Computer Science** | Expected 2027
-
-### Relevant Coursework
-- CS 106B: Programming Abstractions
-- CS 107: Computer Organization & Systems
-- CS 109: Probability for Computer Scientists
-- CS 161: Design and Analysis of Algorithms
-- CS 229: Machine Learning
-
-### GPA: X.XX`,
+`
             },
             {
               name: 'coursework.txt',
               type: 'file',
-              path: '~/portfolio/education/coursework.txt',
+              path: '~/portfolio/about/coursework.txt',
               metadata: { extension: 'txt' },
-              content: `# Notable Coursework
+              content: `# Relevant Coursework
 
 ## Computer Science
-- Data Structures & Algorithms
-- Machine Learning
-- Systems Programming
-- Database Systems
-- Computer Networks
+- Computer Organization and Systems
+- Artificial Intelligence Principles and Techniques
+- Design and Analysis of Algorithms
 
 ## Mathematics
 - Linear Algebra
-- Probability & Statistics
-- Discrete Mathematics`,
+- Multivariable Calculus`,
+            },
+            // Project directories
+            {
+              name: 'Notch-prompter.url',
+              type: 'file',
+              path: '~/portfolio/about/Notch-prompter.url',
+              metadata: {
+                extension: 'url',
+                url: 'https://github.com/luanmdang/notch-prompter',
+              },
+              content: 'https://github.com/luanmdang/notch-prompter',
+            },
+            {
+              name: 'dang-wire.url',
+              type: 'file',
+              path: '~/portfolio/about/dang-wire.url',
+              metadata: {
+                extension: 'url',
+                url: 'https://github.com/luanmdang/notch-prompter',
+              },
+              content: 'https://github.com/luanmdang/notch-prompter',
             },
           ],
         },
@@ -332,7 +168,6 @@ Open to working with artists and producers.`,
 ## Languages
 - TypeScript / JavaScript
 - Python
-- Rust
 - C / C++
 - SQL
 
@@ -355,7 +190,7 @@ Open to working with artists and producers.`,
 - CI/CD
 
 ## Other
-- Music Production (FL Studio, Ableton)
+- Music Production (FL Studio)
 - Video Editing
 - Design (Figma)`,
             },
@@ -373,7 +208,7 @@ Open to working with artists and producers.`,
               metadata: { extension: 'txt' },
               content: `# Contact
 
-Email: your.email@stanford.edu
+Email: luandang2023@gmail.com
 
 Feel free to reach out for:
 - Job opportunities
@@ -387,9 +222,9 @@ Feel free to reach out for:
               path: '~/portfolio/contact/linkedin.url',
               metadata: {
                 extension: 'url',
-                url: 'https://linkedin.com/in/username',
+                url: 'https://www.linkedin.com/in/luan-dang/',
               },
-              content: 'https://linkedin.com/in/username',
+              content: 'https://www.linkedin.com/in/luan-dang/',
             },
             {
               name: 'github.url',
@@ -397,9 +232,9 @@ Feel free to reach out for:
               path: '~/portfolio/contact/github.url',
               metadata: {
                 extension: 'url',
-                url: 'https://github.com/username',
+                url: 'https://github.com/luanmdang',
               },
-              content: 'https://github.com/username',
+              content: 'https://github.com/luanmdang',
             },
           ],
         },
