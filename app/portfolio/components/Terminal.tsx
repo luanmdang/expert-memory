@@ -9,9 +9,11 @@ import { audioManager } from '../utils/audioManager';
 import TextViewer from './viewers/TextViewer';
 import AudioPlayer from './viewers/AudioPlayer';
 import PDFViewer from './viewers/PDFViewer';
+import InlineAudioPlayer from './viewers/InlineAudioPlayer';
 import MatrixLoader from '@components/MatrixLoader';
 import BarProgress from '@components/BarProgress';
 import Tooltip from '@components/Tooltip';
+import { onHandleAppearanceChange } from '@common/utilities';
 
 // Navigation sections with tooltip hints
 const NAV_SECTIONS = [
@@ -60,10 +62,30 @@ const Terminal: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [showMatrix, setShowMatrix] = React.useState(false);
   const [hoveredNav, setHoveredNav] = React.useState<string | null>(null);
+  const [noPopup, setNoPopup] = React.useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('noPopup') === 'true';
+    }
+    return false;
+  });
+  const [isDarkMode, setIsDarkMode] = React.useState(() => {
+    if (typeof window !== 'undefined') {
+      // Check localStorage first, then fallback to body class
+      const stored = localStorage.getItem('darkMode');
+      if (stored !== null) return stored === 'true';
+      return document.body.classList.contains('theme-dark');
+    }
+    return true; // Default to dark for terminal aesthetic
+  });
 
   const terminalHistoryRef = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const startTimeRef = React.useRef(Date.now());
+
+  // Apply theme on mount and changes
+  React.useEffect(() => {
+    onHandleAppearanceChange(isDarkMode ? 'theme-dark' : 'theme-light');
+  }, [isDarkMode]);
 
   // Boot sequence
   React.useEffect(() => {
@@ -140,6 +162,67 @@ const Terminal: React.FC = () => {
     return `${h}:${m}:${s}`;
   };
 
+  // Inline text content renderer
+  const renderInlineText = (file: FileNode): React.ReactNode => {
+    const content = file.content || '';
+    const lines = content.split('\n');
+    const elements: React.ReactNode[] = [];
+    let inCodeBlock = false;
+    let codeContent: string[] = [];
+
+    lines.forEach((line, index) => {
+      if (line.startsWith('```')) {
+        if (inCodeBlock) {
+          elements.push(
+            <pre key={`code-${index}`} className={styles.inlineCode}>
+              <code>{codeContent.join('\n')}</code>
+            </pre>
+          );
+          codeContent = [];
+        }
+        inCodeBlock = !inCodeBlock;
+        return;
+      }
+
+      if (inCodeBlock) {
+        codeContent.push(line);
+        return;
+      }
+
+      if (line.startsWith('# ')) {
+        elements.push(<h1 key={index} className={styles.inlineH1}>{line.slice(2)}</h1>);
+        return;
+      }
+      if (line.startsWith('## ')) {
+        elements.push(<h2 key={index} className={styles.inlineH2}>{line.slice(3)}</h2>);
+        return;
+      }
+      if (line.startsWith('### ')) {
+        elements.push(<h3 key={index} className={styles.inlineH3}>{line.slice(4)}</h3>);
+        return;
+      }
+
+      if (line.startsWith('- ')) {
+        elements.push(<li key={index} className={styles.inlineLi}>{line.slice(2)}</li>);
+        return;
+      }
+
+      if (line.trim() === '') {
+        elements.push(<br key={index} />);
+        return;
+      }
+
+      elements.push(<div key={index} className={styles.inlineText}>{line}</div>);
+    });
+
+    return <div className={styles.inlineContent}>{elements}</div>;
+  };
+
+  // Inline audio player renderer - uses the ASCII-style player
+  const renderInlineAudio = (file: FileNode): React.ReactNode => {
+    return <InlineAudioPlayer file={file} />;
+  };
+
   const handleExecute = (customInput?: string) => {
     const input = customInput || inputValue;
     if (!input.trim()) return;
@@ -177,7 +260,36 @@ const Terminal: React.FC = () => {
 
     if (result.action === 'open-file' && result.payload) {
       const { type, file } = result.payload;
-      setViewer({ type, file, isOpen: true });
+      
+      // PDFs always use popup regardless of noPopup setting
+      if (type === 'pdf') {
+        setViewer({ type, file, isOpen: true });
+      } else if (noPopup) {
+        // Render inline when noPopup is enabled
+        let inlineOutput: React.ReactNode;
+        if (type === 'text') {
+          inlineOutput = renderInlineText(file);
+        } else if (type === 'audio') {
+          inlineOutput = renderInlineAudio(file);
+        } else {
+          // For other types, fall back to popup
+          setViewer({ type, file, isOpen: true });
+          return;
+        }
+        
+        // Add inline content as a command output
+        const inlineCommand: Command = {
+          id: `inline-${Date.now()}`,
+          input: '',
+          output: inlineOutput,
+          timestamp: Date.now(),
+          path: currentPath,
+        };
+        setCommandHistory((prev) => [...prev, inlineCommand]);
+      } else {
+        // Normal popup behavior
+        setViewer({ type, file, isOpen: true });
+      }
     }
 
     if (result.action === 'open-url' && result.payload) {
@@ -372,6 +484,32 @@ const Terminal: React.FC = () => {
               }}
             >
               {isAudioEnabled ? '[sfx]' : '[---]'}
+            </button>
+            <button
+              className={`${styles.noPopupToggle} ${noPopup ? styles.active : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                const newState = !noPopup;
+                setNoPopup(newState);
+                if (typeof window !== 'undefined') {
+                  localStorage.setItem('noPopup', String(newState));
+                }
+              }}
+            >
+              {noPopup ? '[no-popup]' : '[popup]'}
+            </button>
+            <button
+              className={styles.themeToggle}
+              onClick={(e) => {
+                e.stopPropagation();
+                const newState = !isDarkMode;
+                setIsDarkMode(newState);
+                if (typeof window !== 'undefined') {
+                  localStorage.setItem('darkMode', String(newState));
+                }
+              }}
+            >
+              {isDarkMode ? '[dark]' : '[light]'}
             </button>
           </div>
         </header>

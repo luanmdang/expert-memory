@@ -54,7 +54,9 @@
     }
   }
 
-  .audioToggle {
+  .audioToggle,
+  .noPopupToggle,
+  .themeToggle {
     background: transparent;
     border: none;
     color: var(--theme-text);
@@ -71,6 +73,13 @@
 
     &.disabled {
       opacity: 0.3;
+    }
+  }
+
+  .noPopupToggle {
+    &.active {
+      opacity: 1;
+      background: var(--theme-focused-foreground);
     }
   }
 }
@@ -517,10 +526,12 @@
 
   .playerProgress {
     font-family: var(--font-family-mono);
-    letter-spacing: -0.05em;
     cursor: pointer;
     text-align: center;
     margin-bottom: calc(var(--theme-line-height-base) * 0.5rem);
+    width: 34ch; // Exact width for 34 monospace characters
+    margin-left: auto;
+    margin-right: auto;
     user-select: none;
     
     &:hover {
@@ -689,6 +700,155 @@
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.6; }
+}
+
+// Inline Content Styles (for no-popup mode)
+.inlineContent {
+  padding: calc(var(--theme-line-height-base) * 0.5rem) 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.inlineText {
+  margin: calc(var(--theme-line-height-base) * 0.25rem) 0;
+  line-height: calc(var(--theme-line-height-base) * 1.25rem);
+}
+
+.inlineH1 {
+  font-size: calc(var(--font-size) * 1.25);
+  margin: calc(var(--theme-line-height-base) * 1rem) 0 calc(var(--theme-line-height-base) * 0.5rem);
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+.inlineH2 {
+  font-size: var(--font-size);
+  text-transform: uppercase;
+  margin: calc(var(--theme-line-height-base) * 0.75rem) 0 calc(var(--theme-line-height-base) * 0.5rem);
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+.inlineH3 {
+  font-size: var(--font-size);
+  margin: calc(var(--theme-line-height-base) * 0.5rem) 0;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.inlineLi {
+  margin: calc(var(--theme-line-height-base) * 0.25rem) 0;
+  padding-left: 2ch;
+  list-style: none;
+  position: relative;
+
+  &::before {
+    content: '- ';
+    position: absolute;
+    left: 0;
+  }
+}
+
+.inlineCode {
+  background: var(--theme-border-subdued);
+  padding: calc(var(--theme-line-height-base) * 0.5rem) 1ch;
+  overflow-x: auto;
+  margin: calc(var(--theme-line-height-base) * 0.5rem) 0;
+  font-family: var(--font-family-mono);
+
+  code {
+    background: transparent;
+    padding: 0;
+  }
+}
+
+// Inline ASCII Audio Player (no-popup mode)
+.inlineAsciiPlayer {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size);
+  padding: calc(var(--theme-line-height-base) * 0.5rem) 0;
+  margin: calc(var(--theme-line-height-base) * 0.5rem) 0;
+  max-width: 44ch;
+}
+
+.inlinePlayerHeader {
+  display: flex;
+  align-items: center;
+  gap: 2ch;
+  margin-bottom: calc(var(--theme-line-height-base) * 0.25rem);
+}
+
+.inlinePlayerStatus {
+  opacity: 0.6;
+  text-transform: uppercase;
+  width: 10ch; // Fixed width to prevent layout shift
+}
+
+.inlinePlayerTrack {
+  opacity: 0.9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.inlinePlayerProgress {
+  font-family: var(--font-family-mono);
+  cursor: pointer;
+  user-select: none;
+  line-height: calc(var(--theme-line-height-base) * 1rem);
+  width: 34ch; // Exact width for 34 monospace characters
+  
+  &:hover {
+    background: var(--theme-focused-foreground);
+  }
+}
+
+.inlinePlayerRow {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 2ch;
+  margin-top: calc(var(--theme-line-height-base) * 0.25rem);
+  line-height: calc(var(--theme-line-height-base) * 1.25rem);
+}
+
+.inlinePlayerTime {
+  opacity: 0.5;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  width: 11ch; // Fixed width for "0:00 / 0:00"
+}
+
+.inlinePlayerControls {
+  display: flex;
+  gap: 1ch;
+}
+
+.inlinePlayerControl {
+  cursor: pointer;
+  user-select: none;
+  
+  &:hover {
+    background: var(--theme-focused-foreground);
+  }
+}
+
+.inlinePlayerVolume {
+  opacity: 0.6;
+  display: flex;
+  gap: 1ch;
+}
+
+.inlinePlayerMeta {
+  margin-top: calc(var(--theme-line-height-base) * 0.25rem);
+  opacity: 0.4;
+  font-size: calc(var(--font-size) * 0.875);
+  
+  span {
+    &:not(:last-child)::after {
+      content: ' | ';
+    }
+  }
 }
 
 // Mobile Hamburger

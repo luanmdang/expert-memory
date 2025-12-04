@@ -4,12 +4,11 @@ import * as React from 'react';
 import styles from '../../styles/terminal.module.scss';
 import { FileNode } from '../../types';
 
-interface AudioPlayerProps {
+interface InlineAudioPlayerProps {
   file: FileNode;
-  onClose: () => void;
 }
 
-const AudioPlayer: React.FC<AudioPlayerProps> = ({ file, onClose }) => {
+const InlineAudioPlayer: React.FC<InlineAudioPlayerProps> = ({ file }) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [currentTime, setCurrentTime] = React.useState(0);
   const [duration, setDuration] = React.useState(0);
@@ -91,120 +90,78 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ file, onClose }) => {
     audioRef.current.currentTime = progress * duration;
   };
 
-  const handleOverlayClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      if (audioRef.current) audioRef.current.pause();
-      onClose();
-    }
-  };
-
-  const handleKeyDown = React.useCallback((e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      if (audioRef.current) audioRef.current.pause();
-      onClose();
-    }
-    if (e.key === ' ') {
-      e.preventDefault();
-      togglePlay();
-    }
-    if (e.key === 'ArrowLeft' && audioRef.current) {
-      audioRef.current.currentTime = Math.max(0, audioRef.current.currentTime - 5);
-    }
-    if (e.key === 'ArrowRight' && audioRef.current) {
-      audioRef.current.currentTime = Math.min(duration, audioRef.current.currentTime + 5);
-    }
-    if (e.key === 'ArrowUp') {
-      setVolume((v) => Math.min(1, v + 0.1));
-    }
-    if (e.key === 'ArrowDown') {
-      setVolume((v) => Math.max(0, v - 0.1));
-    }
-  }, [onClose, duration, togglePlay]);
-
-  React.useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [handleKeyDown]);
-
   const volumeBars = Math.round(volume * 5);
   const volumeDisplay = '|'.repeat(volumeBars) + '.'.repeat(5 - volumeBars);
 
   return (
-    <div className={styles.modalOverlay} onClick={handleOverlayClick}>
-      <div className={styles.asciiPlayer}>
-        <audio ref={audioRef} src={audioUrl} preload="metadata" />
-        
-        <div className={styles.playerHeader}>
-          <span className={styles.playerStatus}>{isPlaying ? '[PLAYING]' : '[PAUSED]'}</span>
-          <span className={styles.playerClose} onClick={onClose}>[x]</span>
-        </div>
+    <div className={styles.inlineAsciiPlayer}>
+      <audio ref={audioRef} src={audioUrl} preload="metadata" />
+      
+      <div className={styles.inlinePlayerHeader}>
+        <span className={styles.inlinePlayerStatus}>{isPlaying ? '[PLAYING]' : '[PAUSED]'}</span>
+        <span className={styles.inlinePlayerTrack}>{file.name}</span>
+      </div>
 
-        <div className={styles.playerTrack}>
-          {file.name}
-        </div>
+      <div 
+        ref={progressRef}
+        className={styles.inlinePlayerProgress}
+        onClick={handleSeek}
+      >
+        {generateProgressBar()}
+      </div>
 
-        <div 
-          ref={progressRef}
-          className={styles.playerProgress}
-          onClick={handleSeek}
-        >
-          {generateProgressBar()}
-        </div>
-
-        <div className={styles.playerTime}>
+      <div className={styles.inlinePlayerRow}>
+        <span className={styles.inlinePlayerTime}>
           {formatTime(currentTime)} / {formatTime(duration || 0)}
-        </div>
+        </span>
 
-        <div className={styles.playerControls}>
+        <div className={styles.inlinePlayerControls}>
           <span 
-            className={styles.playerControl}
+            className={styles.inlinePlayerControl}
             onClick={() => audioRef.current && (audioRef.current.currentTime = Math.max(0, currentTime - 10))}
           >
             {'<<'}
           </span>
           <span 
-            className={styles.playerControl}
+            className={styles.inlinePlayerControl}
             onClick={togglePlay}
           >
             {isPlaying ? '[||]' : '[>]'}
           </span>
           <span 
-            className={styles.playerControl}
+            className={styles.inlinePlayerControl}
             onClick={() => audioRef.current && (audioRef.current.currentTime = Math.min(duration, currentTime + 10))}
           >
             {'>>'}
           </span>
         </div>
 
-        <div className={styles.playerVolume}>
+        <div className={styles.inlinePlayerVolume}>
           vol [{volumeDisplay}]
           <span 
-            className={styles.playerControl}
+            className={styles.inlinePlayerControl}
             onClick={() => setVolume((v) => Math.max(0, v - 0.2))}
           >
             [-]
           </span>
           <span 
-            className={styles.playerControl}
+            className={styles.inlinePlayerControl}
             onClick={() => setVolume((v) => Math.min(1, v + 0.2))}
           >
             [+]
           </span>
         </div>
-
-        {(bpm || tags.length > 0) && (
-          <div className={styles.playerMeta}>
-            {bpm && <span>{bpm} bpm</span>}
-            {tags.length > 0 && <span>{tags.join(' / ').toLowerCase()}</span>}
-          </div>
-        )}
-
-        <div className={styles.playerHelp}>
-          space=play  arrows=seek/vol  esc=close
-        </div>
       </div>
+
+      {(bpm || tags.length > 0) && (
+        <div className={styles.inlinePlayerMeta}>
+          {bpm && <span>{bpm} bpm</span>}
+          {tags.length > 0 && <span>{tags.join(' / ').toLowerCase()}</span>}
+        </div>
+      )}
     </div>
   );
 };
 
-export default AudioPlayer;
+export default InlineAudioPlayer;
+
