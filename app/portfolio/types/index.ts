@@ -45,7 +45,7 @@ export type CommandHandler = (
 export interface CommandResult {
   output: React.ReactNode;
   newPath?: string;
-  action?: 'open-file' | 'open-url' | 'clear' | 'download';
+  action?: 'open-file' | 'open-url' | 'clear' | 'download' | 'show-matrix';
   payload?: any;
 }
 
