@@ -1,15 +1,15 @@
 import '@root/global-fonts.css';
 import '@root/global.css';
 
-import Terminal from './portfolio/components/Terminal';
+import Terminal from './components/Terminal';
 
 export const dynamic = 'force-static';
 
 // https://nextjs.org/docs/app/api-reference/functions/generateMetadata
 export async function generateMetadata({ params, searchParams }) {
-  const title = `Luan's Portfolio`;
+  const title = `ISS Terminal - Luan Portfolio`;
   const description = 'Interactive ISS Control Panel Portfolio - A unique terminal-style portfolio showcasing projects, experience, and music production.';
-  const url = 'https://sacred.computer';
+  const url = 'https://sacred.computer/portfolio';
   const handle = '@luskii';
 
   return {
@@ -25,7 +25,7 @@ export async function generateMetadata({ params, searchParams }) {
       ],
       shortcut: '/favicon-16x16.png',
     },
-    metadataBase: new URL('https://sacred.computer'),
+    metadataBase: new URL('https://sacred.computer/portfolio'),
     openGraph: {
       description,
       images: [
