@@ -132,18 +132,14 @@ Prev: Zoom Inc., Neurotrack, Chaudhuri Lab, Stanford IAIS, Thrive Scholars, Stra
               metadata: { extension: 'txt' },
               content: `# Music Production
 
-As LUSKII, I produce hip-hop beats and instrumentals.
+LUSKII
 
-## Style
-- Hip-Hop / Trap
-- Melodic beats
-- Hard-hitting drums
-
-## Streaming
-Find my music on all major platforms.
+## Credits:
+sixtyuptown - qua nhan
 
 ## Collaborations
-Open to working with artists and producers.`,
+ig @luskii000
+email prod.luskii@gmail.com`,
             },
             {
               name: 'tracks',
