@@ -3,6 +3,7 @@
 A fully-functional terminal emulator with a custom Unix-like file system implementation, built entirely in the browser. Features include hierarchical directory structures, path resolution, command parsing with 15+ Unix commands, and multi-format file viewers.
 
 ![Screenshot of the terminal interface](https://github.com/luanmdang/virtual-terminal-portfolio/blob/main/virtual-terminal-showcase2.png)
+_note: See the demo at https://luandang.vercel.app/
 
 ## ✨ Core Features
 
