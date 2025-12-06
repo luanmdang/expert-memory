@@ -1,26 +1,85 @@
-# SRCL
+# Virtual Terminal and File System
 
-**[Live Demo](https://sacred.computer)**
+This project is a web-based, interactive terminal and virtual file system built with React and TypeScript. It simulates a Unix-like shell environment, allowing users to navigate a hierarchical file structure, execute commands, and view various file types directly in the browser.
 
-SRCL is an open-source React component and style repository that helps you build web applications, desktop applications, and static websites with terminal aesthetics. Its modular, easy-to-use components emphasize precise monospace character spacing and line heights, enabling you to quickly copy and paste implementations while maintaining a clean, efficient codebase.
+![Screenshot of the terminal interface](https://i.imgur.com/placeholder.png)
+_Note: Replace with an actual screenshot or GIF of the terminal in action._
 
-```sh
-npm install
-npm run dev
-```
+## ✨ Core Features
 
-Go to `http://localhost:10000` in your browser of choice.
+-   **Unix-like Virtual File System**: A fully simulated file system in memory with a hierarchical directory structure, path resolution (`.`, `..`, `~/`), and support for recursive traversal.
+-   **Custom Command-Line Interface (CLI)**: A robust command parser that handles commands, arguments, and flags (e.g., `ls -l`). It includes features like:
+    -   **Tab Autocompletion**: For both commands and file paths.
+    -   **Command History**: Navigate previous commands using arrow keys.
+-   **Multi-Format File Viewer**: Type-safe viewers for various file formats, with lazy loading for large files to ensure a responsive user experience.
+    -   📄 Text files (`.txt`, `.md`)
+    -   🖼️ Images (`.png`, `.jpg`, `.gif`)
+    -   🎵 Audio files (`.mp3`)
+    -   📑 PDFs (`.pdf`)
+    -   🔗 URL links (`.url`)
+-   **Responsive & Themed Design**: Built with a terminal aesthetic that is fully responsive and adapts to different screen sizes.
 
-We use [Vercel](https://vercel.com/home) for hosting.
+## 🚀 Available Commands
 
-### Scripts (Optional)
+The terminal supports a variety of commands for file system navigation, file interaction, and some fun extras.
 
-If you need to run node script without running the server, use this example to get started
+| Command     | Description                                                  | Usage Example              |
+| :---------- | :----------------------------------------------------------- | :------------------------- |
+| `ls`        | Lists the contents of a directory. Supports `-l` for long format. | `ls -l ./documents`      |
+| `cd`        | Changes the current directory.                               | `cd ../projects`           |
+| `open`      | Opens a file in the appropriate viewer or follows a URL.     | `open resume.pdf`          |
+| `cat`       | Alias for `open`. Displays file content.                     | `cat project-notes.txt`    |
+| `tree`      | Displays the directory structure in a tree-like format.      | `tree`                     |
+| `pwd`       | Prints the full path of the current working directory.       | `pwd`                      |
+| `help`      | Displays a list of available commands and usage info.        | `help`                     |
+| `clear`     | Clears all previous output from the terminal screen.         | `clear`                    |
+| `history`   | Provides instructions on how to use command history.         | `history`                  |
+| `whoami`    | Displays brief user information.                             | `whoami`                   |
+| `neofetch`  | Shows mock system information in a classic neofetch style.   | `neofetch`                 |
+| `matrix`    | Initiates a Matrix-style digital rain animation.             | `matrix`                   |
+| `starwars`  | Displays a classic movie quote.                              | `starwars`                 |
 
-```sh
-npm run script example
-```
+## 🛠️ Tech Stack
 
-### Contact
+-   **Framework**: Next.js 14
+-   **Language**: TypeScript
+-   **UI Library**: React 18
+-   **Styling**: Sass (SCSS Modules)
+-   **Build/Package Manager**: npm
 
-If you have questions ping me on Twitter, [@wwwjim](https://www.twitter.com/wwwjim). Or you can ping [@internetxstudio](https://x.com/internetxstudio).
+## ⚙️ Getting Started
+
+To run this project locally, follow these steps:
+
+1.  **Clone the repository:**
+    ```bash
+    git clone <your-repository-url>
+    cd <repository-directory>
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Run the development server:**
+    The application will be available at `http://localhost:10000`.
+    ```bash
+    npm run dev
+    ```
+
+4.  **Build for production:**
+    To create a production-ready build:
+    ```bash
+    npm run build
+    ```
+
+## 📂 Project Architecture
+
+The core logic for the terminal is organized within the `app/portfolio/` directory, following a clear separation of concerns:
+
+-   `data/fileSystem.ts`: Defines the static, in-memory file system structure and provides utility functions for path resolution and traversal.
+-   `utils/commandParser.ts`: Contains the primary logic for parsing user input, executing commands, and handling arguments and flags.
+-   `components/Terminal.tsx`: The main React component that manages the terminal's state, renders the UI, and orchestrates interactions.
+-   `types/index.ts`: Provides TypeScript definitions for core data structures like `FileNode` (for files/directories) and `CommandResult` (for command outputs).
+-   `page.tsx`: The Next.js entry point that renders the `Terminal` component.
