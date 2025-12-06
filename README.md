@@ -1,6 +1,6 @@
 # Virtual Terminal and File System
 
-This project is a web-based, interactive terminal and virtual file system built with React and TypeScript. It simulates a Unix-like shell environment, allowing users to navigate a hierarchical file structure, execute commands, and view various file types directly in the browser.
+A fully-functional terminal emulator with a custom Unix-like file system implementation, built entirely in the browser. Features include hierarchical directory structures, path resolution, command parsing with 15+ Unix commands, and multi-format file viewers.
 
 ![Screenshot of the terminal interface](https://github.com/luanmdang/virtual-terminal-portfolio/blob/main/virtual-terminal-showcase2.png)
 
